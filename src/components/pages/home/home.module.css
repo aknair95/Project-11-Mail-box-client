@@ -1,0 +1,11 @@
+
+header button {
+  margin-left: 1600px;
+}
+
+header h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
