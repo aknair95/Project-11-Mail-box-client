@@ -1,6 +1,7 @@
 import classes from "./signUp.module.css";
 import { Button,Container,Form } from "react-bootstrap";
 import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -8,6 +9,7 @@ const SignUp=() =>{
     const emailRef=useRef();
     const passwordRef=useRef();
     const confirmPasswordRef=useRef();
+    const navigate=useNavigate();
    
 
     const signUpHandler= async (e) =>{
@@ -26,7 +28,7 @@ const SignUp=() =>{
             localStorage.setItem(`emailVerifyStatus${enteredEmail}`,false);
             localStorage.setItem(`profileUpdatedStatus${enteredEmail}`,false);
             alert("Signed up successfully"); 
-            
+            navigate("/login");
             } catch(error){
                 alert("Please enter valid email & password(min length- 6 characters)");
             }
@@ -40,7 +42,7 @@ const SignUp=() =>{
     }
 
     const loginExistingAccHandler=() =>{
-       
+        navigate("/login");
     }
 
     return(
