@@ -1,0 +1,17 @@
+
+.formContainer {
+    margin-top: 80px;
+    margin-right: 20px; 
+    margin-left: 20px; 
+}
+
+.editorSpace {
+    background-color: white;
+    min-height: 300px;
+    max-height: auto;
+    border-radius: 10px;
+}
+
+.formContainer button{
+    margin-top: 10px;
+}
