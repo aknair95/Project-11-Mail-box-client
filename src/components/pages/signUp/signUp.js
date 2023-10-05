@@ -46,26 +46,44 @@ const SignUp=() =>{
     }
 
     return(
-    <>
         <Container className={classes.formContainer}>
             <h3 className="p-2">SIGN UP</h3>
             <Form onSubmit={signUpHandler}>
                 <Form.Group className="p-3">                    
-                    <Form.Control type="email" placeholder="Enter Email ID" required size="lg" ref={emailRef}/>
+                    <Form.Control 
+                        type="email" 
+                        placeholder="Enter Email ID" 
+                        required 
+                        size="md"
+                        width="auto" 
+                        ref={emailRef}/>
                 </Form.Group>
                 <Form.Group className="p-3">                      
-                    <Form.Control type="password" placeholder="Enter Password" minLength={6} required size="lg" ref={passwordRef} />
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Enter Password" 
+                        minLength={6} 
+                        required 
+                        size="md"
+                        width="auto" 
+                        ref={passwordRef} />
                 </Form.Group>
                 <Form.Group className="p-3">                      
-                    <Form.Control type="password" placeholder="Confirm Password" minLength={6} required size="lg" ref={confirmPasswordRef} />
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Confirm Password" 
+                        minLength={6} 
+                        required 
+                        size="md"
+                        width="auto" 
+                        ref={confirmPasswordRef} />
                 </Form.Group>
                 <div className={classes.Btns}>
-                    <Button type="submit" size="lg">SIGN UP</Button>
-                    <Button variant="link" size="lg" onClick={loginExistingAccHandler}>Login With Existing Account</Button>
+                    <Button type="submit" size="md">SIGN UP</Button>
+                    <Button variant="link" size="md" onClick={loginExistingAccHandler}>Login With Existing Account? Login</Button>
                 </div>
             </Form>
         </Container>     
-    </>
     )
 }
 

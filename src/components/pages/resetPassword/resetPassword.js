@@ -32,20 +32,24 @@ const ResetPassword=() =>{
     }
 
     return(
-        <>
             <Container className={classes.formContainer}>
                 <h3 className="p-2">RESET PASSWORD</h3>
                 <Form onSubmit={resetPasswordHandler}>
                     <Form.Group className="p-3">                    
-                        <Form.Control type="email" placeholder="Enter Email ID" required size="lg" ref={emailRef}/>
+                        <Form.Control 
+                         type="email" 
+                         placeholder="Enter Email ID" 
+                         required 
+                         size="md"
+                         width="auto" 
+                         ref={emailRef}/>
                     </Form.Group>
                     <div className={classes.Btn}>
-                        <Button type="submit" size="lg">SEND LINK</Button>|{""}
-                        <Button variant="danger" size="lg" onClick={cancelBtnHandler}>CANCEL</Button>
+                        <Button type="submit" size="md">SEND LINK</Button>|{""}
+                        <Button variant="danger" size="md" onClick={cancelBtnHandler}>CANCEL</Button>
                     </div>
                 </Form>
             </Container> 
-        </>
     )
 }
 

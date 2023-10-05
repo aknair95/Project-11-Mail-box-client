@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { authActions } from "../../../store/authReducer";
 import { useDispatch } from "react-redux";
+import ResetPassword from "../resetPassword/resetPassword";
+import SignUp from "../signUp/signUp";
 
 const Login=() =>{
     const emailRef=useRef();
@@ -41,7 +43,7 @@ const Login=() =>{
     }
 
     const forgotPasswordHandler=() =>{
-        navigate("/resetPassword");
+        navigate("/forgotPswd");
     }
 
     const createNewAccHandler=() =>{
@@ -49,24 +51,34 @@ const Login=() =>{
     }
 
     return(
-    <>
         <Container className={classes.formContainer}>
             <h3 className="p-2">LOGIN</h3>
             <Form onSubmit={loginHandler}>
                 <Form.Group className="p-3">                    
-                    <Form.Control type="email" placeholder="Enter Email ID" required size="lg" ref={emailRef}/>
+                    <Form.Control 
+                        type="email" 
+                        placeholder="Enter Email ID" 
+                        required 
+                        size="md"
+                        width="auto"
+                        ref={emailRef}/>
                 </Form.Group>
                 <Form.Group className="p-3">                      
-                    <Form.Control type="password" placeholder="Enter Password" required size="lg" ref={passwordRef} />
+                    <Form.Control 
+                        type="password" 
+                        placeholder="Enter Password" 
+                        required 
+                        size="md"
+                        width="auto"
+                        ref={passwordRef} />
                 </Form.Group>
                 <div className={classes.Btns}>
-                    <Button type="submit" size="lg">LOGIN</Button>
-                    <Button variant="link" size="lg" onClick={forgotPasswordHandler}>Forgot Password</Button>
-                    <Button variant="link" size="lg" onClick={createNewAccHandler}>Create New Account</Button>
+                    <Button type="submit" size="md">LOGIN</Button>
+                    <Button variant="link" size="md" onClick={forgotPasswordHandler}>Forgot Password</Button>
+                    <Button variant="link" size="md" onClick={createNewAccHandler}>Create New Account? SignUp</Button>
                 </div>
             </Form>
         </Container>     
-    </>
     )
 }
 

@@ -1,6 +1,7 @@
 
 .formContainer {
-    margin-top: 250px;
+    margin-top: 100px;
+    height: auto;
     background-color: #bc99e2;
     border-radius: 12px;
     color: white;
