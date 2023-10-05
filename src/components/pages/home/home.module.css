@@ -1,9 +1,6 @@
 
-header button {
-  margin-left: 1600px;
-}
-
-header h2 {
+.hdr h2 {
+    margin-top: 35px;
     display: flex;
     justify-content: center;
     align-items: center;
