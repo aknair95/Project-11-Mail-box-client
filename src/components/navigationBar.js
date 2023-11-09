@@ -1,6 +1,6 @@
 import { Container, Navbar, Nav,Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/authReducer";
 
 const NavigationBar=() =>{
@@ -11,12 +11,12 @@ const NavigationBar=() =>{
     let homePage=false;
     let loginPage=false;
 
-    switch(activePath){
-        case "/": homePage=true;
-                    break;
-        case "/login": loginPage=true;
-                       break;                        
+    if(activePath==="/"){
+        homePage=true;
     }
+    else{
+        loginPage=true;
+    }                    
 
     const token=localStorage.getItem("token");
     dispatch(authActions.setToken(token));
