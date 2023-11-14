@@ -15,10 +15,8 @@ const ComposeMail=() =>{
 
     const outboxFirebase= async (updatedEmail,sentMailData) =>{
         try{
-            await axios.post(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/inbox/${updatedEmail}.json`,{
-                email: sentMailData.email,
-                subject: sentMailData.subject,
-                content: sentMailData.content
+            await axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/inbox/${updatedEmail}.json`,{
+                sentMailData
             });
             <Alert severity="success">Sent</Alert>  
         } catch(error){
@@ -39,6 +37,7 @@ const ComposeMail=() =>{
         const updatedEmail=email1.replace(".","");
 
         const sentMailData={
+            id: `${updatedEmail}+${Math.random()}`,
             email: enteredEmail,
             subject: enteredSubject,
             content: plainContent 
