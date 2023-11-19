@@ -1,24 +1,39 @@
-import { useEffect } from "react";
-import axios from "axios";
-import { Alert } from "@mui/material";
+
+import { Button, ListGroup } from "react-bootstrap";
+import classes from "./inbox.module.css";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { mailActions } from "../../../store/mailReducer";
 
 const Inbox=() =>{
-    const getInboxMails=() =>{
-        try{
-            const response=axios.get(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/inbox.json`);
-        } catch(error){
-            <Alert severity="danger">!!! Mail Fetching Failed !!!</Alert>
-        }
+    const dispatch=useDispatch();
+    
+    const navigate=useNavigate();
+    const allmails=useSelector((state) => state.mailDetails.allMails);
+
+    const onClickMailOpenHandler=(e) =>{
+        navigate("/inbox/mailOpen");
     }
 
-    useEffect(()=>{
-        getInboxMails();
-    },[]);
+    const onDeleteMailHandler=(e) =>{
+        dispatch(mailActions.deleteMail(e.mail.id));
+    }
 
     return(
-        <ul>
-
-        </ul>
+        <>
+           { 
+            allmails.map((mail) =>{
+                return( 
+                        <ListGroup as="ul" className={classes.mailList}>      
+                            <ListGroup.Item as="li" variant="primary" onClick={onClickMailOpenHandler} key={mail.id} mail={mail}>
+                                <button type="checkbox" />
+                                <p>{mail.receiver}</p><p>{mail.subject}</p><p>{mail.content}</p>
+                                <Button type="click" variant="danger" onClick={onDeleteMailHandler}>Delete</Button>
+                            </ListGroup.Item>
+                        </ListGroup>
+                    )
+            })}
+        </>
     )
 }
 
