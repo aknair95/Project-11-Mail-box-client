@@ -7,7 +7,6 @@ import { mailActions } from "../../../store/mailReducer";
 
 const Inbox=() =>{
     const dispatch=useDispatch();
-    
     const navigate=useNavigate();
     const allmails=useSelector((state) => state.mailDetails.allMails);
 
@@ -20,20 +19,23 @@ const Inbox=() =>{
     }
 
     return(
-        <>
-           { 
-            allmails.map((mail) =>{
-                return( 
-                        <ListGroup as="ul" className={classes.mailList}>      
-                            <ListGroup.Item as="li" variant="primary" onClick={onClickMailOpenHandler} key={mail.id} mail={mail}>
-                                <button type="checkbox" />
-                                <p>{mail.receiver}</p><p>{mail.subject}</p><p>{mail.content}</p>
-                                <Button type="click" variant="danger" onClick={onDeleteMailHandler}>Delete</Button>
-                            </ListGroup.Item>
-                        </ListGroup>
+        <div className={classes.mailList}>
+            <ListGroup as="ul">  
+            { 
+                allmails.map((mail) =>{
+                    console.log(mail.subject)
+                    return( <div key={mail.id} className={classes.mailDetails}>
+                                <ListGroup.Item as="li" onClick={onClickMailOpenHandler} mail={mail}>
+                                    <button type="checkbox" />
+                                    <p>{mail.receiver}</p><p>{mail.subject}</p><p>{mail.content}</p>
+                                    <Button type="click" variant="danger" onClick={onDeleteMailHandler}>Delete</Button>
+                                </ListGroup.Item>
+                            </div>     
+                            
                     )
-            })}
-        </>
+                })}
+            </ListGroup>    
+        </div>
     )
 }
 
