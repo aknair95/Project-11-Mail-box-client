@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { authActions } from "../../../store/authReducer";
 import { useDispatch } from "react-redux";
+import { Alert } from "@mui/material";
 
 const Login=() =>{
     const emailRef=useRef();
@@ -25,8 +26,8 @@ const Login=() =>{
                 returnSecureToken: true
              });
              localStorage.setItem("token",response.data.idToken);
-             localStorage.setItem("emailId",enteredEmail);
-
+             localStorage.setItem("email",enteredEmail);
+             <Alert severity="success">LOGIN SUCCESSFUL</Alert>
              dispatch(authActions.login());
              dispatch(authActions.setEmailID(enteredEmail));
              dispatch(authActions.setToken(response.data.idToken));

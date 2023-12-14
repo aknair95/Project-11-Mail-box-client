@@ -14,7 +14,7 @@ const Sidebar=() =>{
         {
             title: "Outbox",
             icon: <OutboxIcon/>,
-            path: "/sent"
+            path: "/outbox"
         },
         {
             title: "Compose",

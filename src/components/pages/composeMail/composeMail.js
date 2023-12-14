@@ -3,53 +3,67 @@ import classes from "./compose.module.css";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert } from "@mui/material";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { mailActions } from "../../../store/mailReducer";
+import { Navigate } from "react-router-dom";
 
 const ComposeMail=() =>{
     const [editorState,setEditorState]=useState(() =>EditorState.createEmpty());
-
+    const dispatch=useDispatch();
+    const allmails=useSelector((state) =>state.mailDetails.allMails);
     const emailRef=useRef();
     const subjectRef=useRef();
 
-    const outboxFirebase= async (updatedEmail,sentMailData) =>{
-        try{
-            await axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/inbox/${updatedEmail}.json`,{
-                sentMailData
-            });
-            <Alert severity="success">Sent</Alert>  
-        } catch(error){
-            <Alert severity="danger">!!! Error !!!</Alert>
-        }
-    }
+    const token=localStorage.getItem("token");
 
-    const sendMailHandler=(e) =>{
+    const sendMailHandler= async(e) =>{
         e.preventDefault();
         const contentState=editorState.getCurrentContent();
         const rawContentState=convertToRaw(contentState);
         const plainContent=rawContentState.blocks[0].text;
-     
+        
         const enteredEmail=emailRef.current.value;
         const enteredSubject=subjectRef.current.value;
 
-        const email1=enteredEmail.replace("@","");
-        const updatedEmail=email1.replace(".","");
+        const senderEmail=localStorage.getItem("email");
 
-        const sentMailData={
-            id: `${updatedEmail}+${Math.random()}`,
-            email: enteredEmail,
+        const sentMailDetails={ 
+            id: `${Math.random()}`,
+            sender: senderEmail,
+            receiver: enteredEmail,
             subject: enteredSubject,
-            content: plainContent 
+            content: plainContent,
+            read: false,
+            checked: false
         }
-        outboxFirebase(updatedEmail,sentMailData);
+        const updatedAllMails=[...allmails,sentMailDetails];
+        dispatch(mailActions.addMail(updatedAllMails));
+
         emailRef.current.value="";
         subjectRef.current.value="";
         setEditorState("");
     }
 
+    const postFirebase=async() =>{
+        try{
+            await axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails.json`,{
+                allmails: allmails
+        });
+        <Alert severity="success">!!! Mail Sent !!!</Alert>  
+    } catch(error){
+        <Alert severity="danger">!!! Error !!!</Alert>
+    }}
+
+    useEffect(() =>{
+        postFirebase();
+    },[postFirebase]);
+
     return(
         <Form className={classes.formContainer}>
+            {token===null && <Navigate to="/login"/>}
             <InputGroup className="mb-3">
                 <InputGroup.Text>To</InputGroup.Text>
                 <Form.Control

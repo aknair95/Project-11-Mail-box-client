@@ -2,6 +2,7 @@ import { Container, Navbar, Nav,Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/authReducer";
+import { Alert } from "@mui/material";
 
 const NavigationBar=() =>{
     const navigate=useNavigate();
@@ -28,6 +29,7 @@ const NavigationBar=() =>{
         dispatch(authActions.logout());
         dispatch(authActions.setEmailID(null));
         dispatch(authActions.setToken(null));
+        <Alert severity="success">!!! Logged Out !!!</Alert>
         navigate("/login");
     }
 

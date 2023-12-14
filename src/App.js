@@ -1,3 +1,4 @@
+
 import SignUp from "./components/pages/signUp/signUp";
 import Login from "./components/pages/login/login";
 import ResetPassword from "./components/pages/resetPassword/resetPassword";
@@ -8,7 +9,7 @@ import Sidebar from "./components/sideBar";
 import './index.css';
 import ComposeMail from "./components/pages/composeMail/composeMail";
 import Inbox from "./components/pages/Inbox/inbox";
-import Outbox from "@mui/icons-material/Outbox";
+import Outbox from "./components/pages/outbox/outbox"
 import MailOpen from "./components/mailOpen";
 import useFetchMailsFirebase from "./components/fetchMailsFirebase";
 
