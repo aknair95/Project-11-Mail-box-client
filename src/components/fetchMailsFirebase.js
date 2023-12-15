@@ -8,19 +8,18 @@ const useFetchMailsFirebase=() =>{
     const dispatch=useDispatch();
     const allMails=useSelector((state) => state.mailDetails.allMails );
 
-    const getFirebaseMails=async() =>{
-      try{
-        const response=await axios.get(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails/allmails.json`);
-        if(response.data!==null && response.data.length>allMails.length){
-          dispatch(mailActions.addMail(response.data));
-        }
-    } catch(error){
-        <Alert severity="warning">!!! Mail Fetching Failed !!!</Alert>
-    }}
-
     useEffect(() =>{
+      const getFirebaseMails=async() =>{
+        try{
+          const response=await axios.get(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails/allmails.json`);
+          if(response.data!==null && response.data.length>allMails.length){
+            dispatch(mailActions.addMail(response.data));
+          }
+      } catch(error){
+          <Alert severity="warning">!!! Mail Fetching Failed !!!</Alert>
+      }}
         getFirebaseMails();
-      },[]);
+      },);
 }
 
 export default useFetchMailsFirebase;

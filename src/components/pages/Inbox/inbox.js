@@ -1,16 +1,16 @@
 
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import classes from "./inbox.module.css";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { mailActions } from "../../../store/mailReducer";
 import { Checkbox } from "@mui/material";
-import { Alert } from "@mui/material";
 import axios from "axios";
+import Badge from '@mui/material/Badge';
+import { Alert } from "@mui/material";
 
 const Inbox=() =>{
     const dispatch=useDispatch();
-    const navigate=useNavigate();
     let allmails=useSelector((state) => state.mailDetails.allMails);
     const token=useSelector((state) => state.authentication.token);
 
@@ -42,10 +42,6 @@ const Inbox=() =>{
         }
     }
 
-    const onClickMailOpenHandler=(e) =>{
-        navigate("/inbox/mailOpen");
-    }
-
     const onDeleteMailHandler=async(e) =>{
         const updatedMails=allmails.filter((mail) =>{
             return e.target.id!==mail.id;
@@ -63,16 +59,35 @@ const Inbox=() =>{
         } 
     }
 
+    const onReadMailHandler=async(e) =>{
+        const ID=e.target.parentElement.parentElement.id;
+        const updatedMails=allmails.map((mail) =>{
+            if(mail.id===ID && mail.read===false){
+                return {...mail,read: true};
+            }
+            return mail;
+        });
+        dispatch(mailActions.addMail(updatedMails));
+        try{
+            axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails.json`,{
+                    allmails: updatedMails
+         }); 
+        } catch(error){
+            <Alert severity="warning">!!! Error !!!</Alert>
+        }
+    }
+
     return(
         <div className={classes.mailList}>
             {token===null && <Navigate to="/login"/>} 
             <ListGroup as="ul">  
             { 
                 receivedMails.map((mail) =>{
-                    return( <Card className={classes.mailDetails } key={mail.id}>
+                    return( <Card className={classes.mailDetails} key={mail.id}>
                                 <ListGroup.Item as="li" mail={mail}>
                                     <Row>
                                         <Col>
+                                            <Badge color="primary" variant="dot" invisible={mail.read}/>{" "}
                                             <Checkbox
                                              id={mail.id}
                                              size="small" 
@@ -80,17 +95,26 @@ const Inbox=() =>{
                                              checked={mail.checked}
                                              />
                                         </Col>
-                                        <Col>
-                                            <p>{mail.receiver}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>{mail.subject}</p>
-                                        </Col> 
-                                        <Col>
-                                            <p>{mail.content}</p>
+                                        <Col className="col-8">
+                                            <Link 
+                                             to={`/inbox/:${mail.id}`} 
+                                             className={classes.mailBody}
+                                             onClick={onReadMailHandler}
+                                             id={mail.id}>
+                                                    <Col>
+                                                        <p>{mail.receiver}</p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>{mail.subject}</p>
+                                                    </Col> 
+                                                    <Col>
+                                                        <p>{mail.content}</p>
+                                                    </Col>
+                                            </Link>
                                         </Col>
                                         <Col>
                                             <Button
+                                             id={mail.id}
                                              size="sm" 
                                              type="click" 
                                              variant="danger" 

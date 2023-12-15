@@ -1,35 +1,37 @@
 
-import SignUp from "./components/pages/signUp/signUp";
-import Login from "./components/pages/login/login";
-import ResetPassword from "./components/pages/resetPassword/resetPassword";
-import Home from "./components/pages/home/home";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import NavigationBar from "./components/navigationBar";
-import Sidebar from "./components/sideBar";
-import './index.css';
-import ComposeMail from "./components/pages/composeMail/composeMail";
-import Inbox from "./components/pages/Inbox/inbox";
-import Outbox from "./components/pages/outbox/outbox"
-import MailOpen from "./components/mailOpen";
 import useFetchMailsFirebase from "./components/fetchMailsFirebase";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import './index.css';
+
+const SignUp=lazy(() => import("./components/pages/signUp/signUp"));
+const Login=lazy(() => import("./components/pages/login/login"));
+const ResetPassword=lazy(() => import("./components/pages/resetPassword/resetPassword"));
+const NavigationBar=lazy(() => import("./components/navigationBar"));
+const Sidebar=lazy(() => import("./components/sideBar"));
+const Home=lazy(() => import("./components/pages/home/home"));
+const ComposeMail=lazy(() => import("./components/pages/composeMail/composeMail"));
+const Inbox=lazy(() => import("./components/pages/Inbox/inbox"));
+const Outbox=lazy(() => import("./components/pages/outbox/outbox"));
+const ReadMail=lazy(() => import("./components/ReadMail"));
 
 function App() {
   useFetchMailsFirebase();
   return (
     <div className="app">
       <BrowserRouter>
-          <NavigationBar/>
+          <Suspense><NavigationBar/></Suspense>
           <div className="app_body">
-            <Sidebar/>
+            <Suspense><Sidebar/></Suspense>
             <Routes >
-              <Route path="/" element={<Home/>}/>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/signUp" element={<SignUp/>}/>
-              <Route path="/forgotPswd" element={<ResetPassword/>}/>
-              <Route path="/compose" element={<ComposeMail/>}/>
-              <Route path="/inbox" element={<Inbox/>}/>
-              <Route path="/inbox/mailOpen" element={<MailOpen/>}/>
-              <Route path="/outbox" element={<Outbox/>}/>
+              <Route path="/" element={<Suspense><Home/></Suspense>}/>
+              <Route path="/login" element={<Suspense><Login/></Suspense>}/>
+              <Route path="/signUp" element={<Suspense><SignUp/></Suspense>}/>
+              <Route path="/forgotPswd" element={<Suspense><ResetPassword/></Suspense>}/>
+              <Route path="/compose" element={<Suspense><ComposeMail/></Suspense>}/>
+              <Route path="/inbox" element={<Suspense><Inbox/></Suspense>}/>
+              <Route path="/inbox/:ID" element={<Suspense><ReadMail/></Suspense>}/>
+              <Route path="/outbox" element={<Suspense><Outbox/></Suspense>}/>
             </Routes>
           </div>
       </BrowserRouter>

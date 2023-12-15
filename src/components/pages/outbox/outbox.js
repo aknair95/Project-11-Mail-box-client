@@ -1,7 +1,7 @@
 
 import { Button, Card, Col, ListGroup, Row } from "react-bootstrap";
 import classes from "./outbox.module.css";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { mailActions } from "../../../store/mailReducer";
 import { Checkbox } from "@mui/material";
@@ -10,7 +10,6 @@ import axios from "axios";
 
 const Outbox=() =>{
     const dispatch=useDispatch();
-    const navigate=useNavigate();
     const allmails=useSelector((state) => state.mailDetails.allMails);
     const token=useSelector((state) => state.authentication.token);
     const userEmail=localStorage.getItem("email");
@@ -39,10 +38,6 @@ const Outbox=() =>{
         } catch(error){
         <Alert severity="warning">!!! Error !!!</Alert>
         }
-    }
-
-    const onClickMailOpenHandler=(e) =>{
-        navigate("/inbox/mailOpen");
     }
 
     const onDeleteMailHandler=async(e) =>{
@@ -77,16 +72,20 @@ const Outbox=() =>{
                                              size="small" 
                                              onClick={setCheckedHandler}
                                              checked={mail.checked}
-                                             />
+                                             />    
                                         </Col>
-                                        <Col>
-                                            <p>{mail.receiver}</p>
-                                        </Col>
-                                        <Col>
-                                            <p>{mail.subject}</p>
-                                        </Col> 
-                                        <Col>
-                                            <p>{mail.content}</p>
+                                        <Col className="col-8">
+                                            <Link to={`/inbox/:${mail.id}`} className={classes.mailBody}>
+                                                    <Col>
+                                                        <p>{mail.receiver}</p>
+                                                    </Col>
+                                                    <Col>
+                                                        <p>{mail.subject}</p>
+                                                    </Col> 
+                                                    <Col>
+                                                        <p>{mail.content}</p>
+                                                    </Col>
+                                            </Link>
                                         </Col>
                                         <Col>
                                             <Button

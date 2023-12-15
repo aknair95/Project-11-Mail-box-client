@@ -3,7 +3,7 @@ import classes from "./compose.module.css";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Alert } from "@mui/material";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,7 +19,7 @@ const ComposeMail=() =>{
 
     const token=localStorage.getItem("token");
 
-    const sendMailHandler= async(e) =>{
+    const sendMailHandler=async(e) =>{
         e.preventDefault();
         const contentState=editorState.getCurrentContent();
         const rawContentState=convertToRaw(contentState);
@@ -42,24 +42,19 @@ const ComposeMail=() =>{
         const updatedAllMails=[...allmails,sentMailDetails];
         dispatch(mailActions.addMail(updatedAllMails));
 
+        try{
+            await axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails.json`,{
+                allmails: updatedAllMails
+        });
+        <Alert severity="success">!!! Mail Sent !!!</Alert>  
+        } catch(error){
+        <Alert severity="danger">!!! Error !!!</Alert>
+        }
+
         emailRef.current.value="";
         subjectRef.current.value="";
         setEditorState("");
     }
-
-    const postFirebase=async() =>{
-        try{
-            await axios.patch(`https://mail-box-client-f2b69-default-rtdb.firebaseio.com/mails.json`,{
-                allmails: allmails
-        });
-        <Alert severity="success">!!! Mail Sent !!!</Alert>  
-    } catch(error){
-        <Alert severity="danger">!!! Error !!!</Alert>
-    }}
-
-    useEffect(() =>{
-        postFirebase();
-    },[postFirebase]);
 
     return(
         <Form className={classes.formContainer}>

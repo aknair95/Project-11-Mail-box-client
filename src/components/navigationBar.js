@@ -30,6 +30,7 @@ const NavigationBar=() =>{
         dispatch(authActions.setEmailID(null));
         dispatch(authActions.setToken(null));
         <Alert severity="success">!!! Logged Out !!!</Alert>
+        document.location.reload();
         navigate("/login");
     }
 

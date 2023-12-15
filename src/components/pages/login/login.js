@@ -10,10 +10,8 @@ import { Alert } from "@mui/material";
 const Login=() =>{
     const emailRef=useRef();
     const passwordRef=useRef();
-    
     const dispatch=useDispatch();
     const navigate=useNavigate();
-
     const loginHandler= async (e) =>{
         e.preventDefault();
         const enteredEmail=emailRef.current.value;
@@ -32,6 +30,7 @@ const Login=() =>{
              dispatch(authActions.setEmailID(enteredEmail));
              dispatch(authActions.setToken(response.data.idToken));
              navigate("/");
+             document.location.reload();
             } catch(error){
                 console.log(error)
                 alert("!!! Incorrect Email or Password !!!");
